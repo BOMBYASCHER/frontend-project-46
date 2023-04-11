@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "type": "module",
-  "description": "[![Actions Status](https://github.com/BOMBYASCHER/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/BOMBYASCHER/frontend-project-46/actions)",
+  "description": "Gendiff CLI",
   "main": "gendiff.js",
   "simple-git-hooks": {
     "pre-push": "make lint"
@@ -12,6 +12,10 @@
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BOMBYASCHER/frontend-project-46.git"
+  },
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
