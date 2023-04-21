@@ -43,48 +43,59 @@ const getCommonKeys = (file1, file2) => {
   return result;
 };
 
+const getStatus = (firstFile, secondFile, key) => {
+  let status = 'different';
+  if (!Object.hasOwn(firstFile, key)) {
+    status = '-1';
+  }
+  if (!Object.hasOwn(secondFile, key)) {
+    status = '+1';
+  }
+  if (firstFile[key] === secondFile[key]) {
+    status = 'equals';
+  }
+  if (isObject(firstFile[key]) && isObject(secondFile[key])) {
+    status = 'common';
+  }
+  return status;
+};
+
+const getData = (file1, file2, key, status, func) => {
+  let data = [file1[key], file2[key]];
+  if (status === '-1') {
+    data = file2[key];
+  }
+  if (status === '+1') {
+    data = file1[key];
+  }
+  if (status === 'equals') {
+    data = file1[key];
+  }
+  if (status === 'common') {
+    data = func(file1[key], file2[key]);
+  }
+  return data;
+};
+
+const getDiff = (fileObject1, fileObject2) => {
+  const file1 = _.cloneDeep(fileObject1);
+  const file2 = _.cloneDeep(fileObject2);
+  const commonObject = getCommonKeys(file1, file2);
+  const commonKeys = Object.keys(commonObject);
+  const result = commonKeys.sort().reduce((acc, key) => {
+    const object = { status: undefined, data: undefined };
+    object.status = getStatus(file1, file2, key);
+    object.data = getData(file1, file2, key, object.status, getDiff);
+    acc[key] = object;
+    return acc;
+  }, {});
+  return result;
+};
+
 const genDiff = (filepath1, filepath2) => {
-  const fileFirst = parseByFormat(filepath1);
-  const fileSecond = parseByFormat(filepath2);
-  const getDiff = (fileObject1, fileObject2) => {
-    const file1 = _.cloneDeep(fileObject1);
-    const file2 = _.cloneDeep(fileObject2);
-    const commonObject = getCommonKeys(file1, file2);
-    const commonKeys = Object.keys(commonObject);
-    const result = commonKeys.sort().reduce((acc, key) => {
-      const object = { status: undefined, data: undefined };
-      if (!Object.hasOwn(file1, key)) {
-        object.status = '-1';
-        object.data = file2[key];
-        acc[key] = object;
-        return acc;
-      }
-      if (!Object.hasOwn(file2, key)) {
-        object.status = '+1';
-        object.data = file1[key];
-        acc[key] = object;
-        return acc;
-      }
-      if (file1[key] === file2[key]) {
-        object.status = 'equals';
-        object.data = file1[key];
-        acc[key] = object;
-        return acc;
-      }
-      if (isObject(file1[key]) && isObject(file2[key])) {
-        object.status = 'common';
-        object.data = getDiff(file1[key], file2[key]);
-        acc[key] = object;
-        return acc;
-      }
-      object.status = 'different';
-      object.data = [file1[key], file2[key]];
-      acc[key] = object;
-      return acc;
-    }, {});
-    return result;
-  };
-  return getDiff(fileFirst, fileSecond);
+  const file1 = parseByFormat(filepath1);
+  const file2 = parseByFormat(filepath2);
+  return getDiff(file1, file2);
 };
 
 export default genDiff;
