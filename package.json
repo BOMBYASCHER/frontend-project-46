@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Gendiff CLI",
-  "main": "gendiff.js",
+  "main": "index.js",
   "simple-git-hooks": {
     "pre-push": "make lint"
   },
