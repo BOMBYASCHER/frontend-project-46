@@ -45,12 +45,8 @@ const genString = (objectData, objectStatus, mainPath) => {
           path.push(elem[0]);
           const string = iter(elem[1].data, elem[1].status);
           path.pop();
-          if (string instanceof Array) {
-            return [];
-          }
           return string;
-        }
-        return [];
+        }      
       }
       return [];
     });
@@ -66,7 +62,7 @@ const plain = (value) => {
   const iter = (object) => {
     const keyAndValue = Object.entries(object);
     const data = keyAndValue.flatMap((elem) => genString(elem[1].data, elem[1].status, [elem[0]]));
-    const result = data.flat().reduce((acc, elem) => {
+    const result = data.flat(Infinity).reduce((acc, elem) => {
       if (acc === '') {
         return `${elem}`;
       }
