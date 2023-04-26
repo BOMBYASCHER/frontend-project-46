@@ -7,7 +7,7 @@ const chooseFormatter = (formatName) => {
     return plain;
   }
   if (formatName === 'json') {
-    return json;
+    return stylish;
   }
   return stylish;
 };
