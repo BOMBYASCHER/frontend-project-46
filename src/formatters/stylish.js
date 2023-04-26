@@ -1,4 +1,4 @@
-import { isObject } from './index.js';
+import { isObject } from '../index.js';
 
 const genString = (value, replacer, spacesCount, deep) => {
   if (!(isObject(value))) {
