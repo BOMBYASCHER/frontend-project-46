@@ -46,7 +46,7 @@ const genString = (objectData, objectStatus, mainPath) => {
           const string = iter(elem[1].data, elem[1].status);
           path.pop();
           return string;
-        }      
+        }
       }
       return [];
     });
