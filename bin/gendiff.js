@@ -10,9 +10,8 @@ program
   .option('-f, --format <type>', 'output format', 'stylish')
   .action((filepath1, filepath2) => {
     const formatName = program.opts().format;
-    const formatter = chooseFormatter(formatName);
-    const diff = genDiff(filepath1, filepath2);
-    console.log(formatter(diff));
+    const diff = genDiff(filepath1, filepath2, formatName);
+    console.log(diff);
   });
 
 program.parse(process.argv);

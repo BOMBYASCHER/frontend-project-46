@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import parseByFormat from './parsers.js';
+import chooseFormatter from './formatters/index.js';
 
 export const isObject = (object) => {
   if (object instanceof Object) {
@@ -92,11 +93,12 @@ const getDiff = (fileObject1, fileObject2) => {
   return result;
 };
 
-const genDiff = (filepath1, filepath2) => {
+const genDiff = (filepath1, filepath2, format) => {
   const file1 = parseByFormat(filepath1);
   const file2 = parseByFormat(filepath2);
   const result = getDiff(file1, file2);
-  return result;
+  const formatter = chooseFormatter(format);
+  return formatter(result);
 };
 
 export default genDiff;
