@@ -92,11 +92,11 @@ const getDiff = (fileObject1, fileObject2) => {
   return result;
 };
 
-const genDiff = (filepath1, filepath2, format) => {
+const genDiff = (filepath1, filepath2) => {
   const file1 = parseByFormat(filepath1);
   const file2 = parseByFormat(filepath2);
   const result = getDiff(file1, file2);
-  return format(result);
+  return result;
 };
 
 export default genDiff;

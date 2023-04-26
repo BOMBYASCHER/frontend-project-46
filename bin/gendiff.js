@@ -11,8 +11,8 @@ program
   .action((filepath1, filepath2) => {
     const formatName = program.opts().format;
     const formatter = chooseFormatter(formatName);
-    const diff = genDiff(filepath1, filepath2, formatter);
-    console.log(diff);
+    const diff = genDiff(filepath1, filepath2);
+    console.log(formatter(diff));
   });
 
 program.parse(process.argv);
