@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { isObject } from '../index.js';
+import isObject from '../functions.js';
 
 const isCopmlex = (value) => {
   if (isObject(value)) {

@@ -1,15 +1,7 @@
 import _ from 'lodash';
 import parseByFormat from './parsers.js';
 import chooseFormatter from './formatters/index.js';
-
-export const isObject = (object) => {
-  if (object instanceof Object) {
-    if (object !== null) {
-      return true;
-    }
-  }
-  return false;
-};
+import isObject from './functions.js';
 
 const getKeys = (object) => {
   if (isObject(object)) {
