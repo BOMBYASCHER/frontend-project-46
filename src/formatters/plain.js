@@ -17,8 +17,8 @@ const processValue = (value) => {
 
 const genString = (objectData, objectStatus, mainPath) => {
   const strings = {
-    '-1': 'was added with value:',
-    '+1': 'was removed',
+    added: 'was added with value:',
+    removed: 'was removed',
     different: 'was updated.',
   };
   const path = _.cloneDeep(mainPath);
@@ -32,10 +32,10 @@ const genString = (objectData, objectStatus, mainPath) => {
     if (status === 'different') {
       return `Property '${currentPath}' ${strings[status]} From ${processValue(data[0])} to ${processValue(data[1])}`;
     }
-    if (status === '+1') {
+    if (status === 'removed') {
       return `Property '${currentPath}' ${strings[status]}`;
     }
-    if (status === '-1') {
+    if (status === 'added') {
       return `Property '${currentPath}' ${strings[status]} ${processValue(data)}`;
     }
     const keyAndValue = Object.entries(data);

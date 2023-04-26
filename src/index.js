@@ -46,10 +46,10 @@ const getCommonKeys = (file1, file2) => {
 const getStatus = (firstFile, secondFile, key) => {
   let status = 'different';
   if (!Object.hasOwn(firstFile, key)) {
-    status = '-1';
+    status = 'added';
   }
   if (!Object.hasOwn(secondFile, key)) {
-    status = '+1';
+    status = 'removed';
   }
   if (firstFile[key] === secondFile[key]) {
     status = 'equals';
@@ -62,10 +62,10 @@ const getStatus = (firstFile, secondFile, key) => {
 
 const getData = (file1, file2, key, status, func) => {
   let data = [file1[key], file2[key]];
-  if (status === '-1') {
+  if (status === 'added') {
     data = file2[key];
   }
-  if (status === '+1') {
+  if (status === 'removed') {
     data = file1[key];
   }
   if (status === 'equals') {

@@ -25,10 +25,10 @@ const stylish = (value, replacer = ' ', spacesCount = 4) => {
   const iter = (object, sub, indent, depth) => {
     const keyAndValue = Object.entries(object);
     const data = keyAndValue.map((elem) => {
-      if (elem[1].status === '-1') {
+      if (elem[1].status === 'added') {
         return `+ ${elem[0]}: ${genString(elem[1].data, sub, indent, depth)}`;
       }
-      if (elem[1].status === '+1') {
+      if (elem[1].status === 'removed') {
         return `- ${elem[0]}: ${genString(elem[1].data, sub, indent, depth)}`;
       }
       if (elem[1].status === 'equals') {
