@@ -22,36 +22,30 @@ const callback = (acc, value, separator) => {
   return `${acc}${separator}${value}`;
 };
 
-const genString = (objectData, objectStatus, mainPath) => {
+const genString = (data, status, path) => {
   const strings = {
     added: 'was added with value:',
     removed: 'was removed',
     different: 'was updated.',
   };
-  const iter = (data, status, path) => {
-    const currentPath = path.reduce((acc, key) => callback(acc, key, '.'), '');
-    if (status === 'different') {
-      return `Property '${currentPath}' ${strings[status]} From ${processValue(data[0])} to ${processValue(data[1])}`;
+  const currentPath = path.reduce((acc, key) => callback(acc, key, '.'), '');
+  if (status === 'different') {
+    return `Property '${currentPath}' ${strings[status]} From ${processValue(data[0])} to ${processValue(data[1])}`;
+  }
+  if (status === 'removed') {
+    return `Property '${currentPath}' ${strings[status]}`;
+  }
+  if (status === 'added') {
+    return `Property '${currentPath}' ${strings[status]} ${processValue(data)}`;
+  }
+  const keyAndValue = Object.entries(data);
+  const result = keyAndValue.map((elem) => {
+    if (status === 'common') {
+      return genString(elem[1].data, elem[1].status, [...path, elem[0]]);
     }
-    if (status === 'removed') {
-      return `Property '${currentPath}' ${strings[status]}`;
-    }
-    if (status === 'added') {
-      return `Property '${currentPath}' ${strings[status]} ${processValue(data)}`;
-    }
-    const keyAndValue = Object.entries(data);
-    const result = keyAndValue.map((elem) => {
-      if (status === 'common') {
-        if (isObject(elem[1])) {
-          const string = iter(elem[1].data, elem[1].status, [...path, elem[0]]);
-          return string;
-        }
-      }
-      return [];
-    });
-    return result;
-  };
-  return iter(objectData, objectStatus, mainPath);
+    return [];
+  });
+  return result;
 };
 
 const plain = (object) => {

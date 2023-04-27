@@ -52,10 +52,7 @@ const getData = (file1, file2, key, status, func) => {
   if (status === 'added') {
     return file2[key];
   }
-  if (status === 'removed') {
-    return file1[key];
-  }
-  if (status === 'equals') {
+  if (status === 'removed' || status === 'equals') {
     return file1[key];
   }
   if (status === 'common') {
