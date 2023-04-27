@@ -55,7 +55,7 @@ const genString = (objectData, objectStatus, mainPath) => {
 };
 
 const plain = (object) => {
-    const iter = (value) => {
+  const iter = (value) => {
     const keyAndValue = Object.entries(value);
     const data = keyAndValue.flatMap((elem) => genString(elem[1].data, elem[1].status, [elem[0]]));
     const result = data.flat(Infinity).reduce((acc, elem) => callback(acc, elem, '\n'), '');

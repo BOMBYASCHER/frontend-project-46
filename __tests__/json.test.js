@@ -8,8 +8,7 @@ import json from '../src/formatters/json.js';
 
 let correct1;
 let correct2;
-let r;
-let e;
+
 beforeAll(() => {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
