@@ -6,22 +6,14 @@ import { getDiff } from '../src/index.js';
 import parseByFormat from '../src/parsers.js';
 import plain from '../src/formatters/plain.js';
 
-let correct1;
-let correct2;
-
-beforeAll(() => {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const filepath1 = path.join(__dirname, '..', '__fixtures__', 'correct-out-plain.txt');
-  const filepath2 = path.join(__dirname, '..', '__fixtures__', 'correct-out-plain2.txt');
-  correct1 = readFileSync(filepath1, 'utf-8');
-  correct2 = readFileSync(filepath2, 'utf-8');
-});
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const correctFilePath1 = path.join(__dirname, '..', '__fixtures__', 'correct-out-plain.txt');
+const correctFilePath2 = path.join(__dirname, '..', '__fixtures__', 'correct-out-plain2.txt');
+const correct1 = readFileSync(correctFilePath1, 'utf-8');
+const correct2 = readFileSync(correctFilePath2, 'utf-8');
 
 test('Check plain', () => {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-
   const filepath1 = path.join(__dirname, '..', '__fixtures__', 'file1.json');
   const filedata1 = parseByFormat(filepath1);
 
