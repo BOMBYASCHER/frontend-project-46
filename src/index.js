@@ -27,7 +27,7 @@ const getCommonKeys = (file1, file2) => {
   const result = commonKeys.reduce((acc, key) => {
     const keyValue1 = getKeyOfValue(file1, key);
     const keyValue2 = getKeyOfValue(file2, key);
-    return Object.assign(acc, { [key]: getCommonKeys(keyValue1, keyValue2) });
+    return _.merge(acc, { [key]: getCommonKeys(keyValue1, keyValue2) });
   }, {});
   return result;
 };
@@ -73,7 +73,7 @@ const getDiff = (fileObject1, fileObject2) => {
     const status = getStatus(file1, file2, key);
     const data = getData(file1, file2, key, status, getDiff);
     const object = { [key]: { status, data } };
-    return Object.assign(acc, object);
+    return _.merge(acc, object);
   }, {});
   return result;
 };
