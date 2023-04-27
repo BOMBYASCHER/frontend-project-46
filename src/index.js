@@ -27,45 +27,41 @@ const getCommonKeys = (file1, file2) => {
   const result = commonKeys.reduce((acc, key) => {
     const keyValue1 = getKeyOfValue(file1, key);
     const keyValue2 = getKeyOfValue(file2, key);
-    const newAcc = _.cloneDeep(acc);
-    newAcc[key] = getCommonKeys(keyValue1, keyValue2);
-    return newAcc;
+    return Object.assign(acc, { [key]: getCommonKeys(keyValue1, keyValue2) });
   }, {});
   return result;
 };
 
 const getStatus = (firstFile, secondFile, key) => {
-  let status = 'different';
   if (!Object.hasOwn(firstFile, key)) {
-    status = 'added';
+    return 'added';
   }
   if (!Object.hasOwn(secondFile, key)) {
-    status = 'removed';
+    return 'removed';
   }
   if (firstFile[key] === secondFile[key]) {
-    status = 'equals';
+    return 'equals';
   }
   if (isObject(firstFile[key]) && isObject(secondFile[key])) {
-    status = 'common';
+    return 'common';
   }
-  return status;
+  return 'different';
 };
 
 const getData = (file1, file2, key, status, func) => {
-  let data = [file1[key], file2[key]];
   if (status === 'added') {
-    data = file2[key];
+    return file2[key];
   }
   if (status === 'removed') {
-    data = file1[key];
+    return file1[key];
   }
   if (status === 'equals') {
-    data = file1[key];
+    return file1[key];
   }
   if (status === 'common') {
-    data = func(file1[key], file2[key]);
+    return func(file1[key], file2[key]);
   }
-  return data;
+  return [file1[key], file2[key]];
 };
 
 const getDiff = (fileObject1, fileObject2) => {
@@ -73,12 +69,11 @@ const getDiff = (fileObject1, fileObject2) => {
   const file2 = _.cloneDeep(fileObject2);
   const commonObject = getCommonKeys(file1, file2);
   const commonKeys = Object.keys(commonObject);
-  const result = commonKeys.sort().reduce((acc, key) => {
-    const object = { status: undefined, data: undefined };
-    object.status = getStatus(file1, file2, key);
-    object.data = getData(file1, file2, key, object.status, getDiff);
-    acc[key] = object;
-    return acc;
+  const result = _.sortBy(commonKeys).reduce((acc, key) => {
+    const status = getStatus(file1, file2, key);
+    const data = getData(file1, file2, key, status, getDiff);
+    const object = { [key]: { status, data } };
+    return Object.assign(acc, object);
   }, {});
   return result;
 };
