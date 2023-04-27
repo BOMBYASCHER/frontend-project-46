@@ -21,8 +21,7 @@ const genString = (objectData, objectStatus, mainPath) => {
     removed: 'was removed',
     different: 'was updated.',
   };
-  const path = _.cloneDeep(mainPath);
-  const iter = (data, status) => {
+  const iter = (data, status, path) => {
     const currentPath = path.reduce((acc, key) => {
       if (acc === '') {
         return `${key}`;
@@ -42,9 +41,7 @@ const genString = (objectData, objectStatus, mainPath) => {
     const result = keyAndValue.map((elem) => {
       if (status === 'common') {
         if (isObject(elem[1])) {
-          path.push(elem[0]);
-          const string = iter(elem[1].data, elem[1].status);
-          path.pop();
+          const string = iter(elem[1].data, elem[1].status, [...path, elem[0]]);
           return string;
         }
       }
@@ -52,7 +49,7 @@ const genString = (objectData, objectStatus, mainPath) => {
     });
     return result;
   };
-  return iter(objectData, objectStatus);
+  return iter(objectData, objectStatus, mainPath);
 };
 
 const plain = (value) => {

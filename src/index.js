@@ -10,26 +10,23 @@ const getKeys = (object) => {
   return [];
 };
 
+const getKeyOfValue = (file, key) => {
+  if (_.get(file, key)) {
+    return file[key];
+  }
+  return [];
+};
+
 const getCommonKeys = (file1, file2) => {
   const fileKeys1 = getKeys(file1);
   const fileKeys2 = getKeys(file2);
-  const commonKeys = _.union(fileKeys1, fileKeys2);
+  const commonKeys = _.union(fileKeys1, fileKeys2).sort();
   if (commonKeys.length === 0) {
     return null;
   }
-  const result = commonKeys.sort().reduce((acc, key) => {
-    let keyValue1;
-    let keyValue2;
-    if (_.get(file1, key)) {
-      keyValue1 = file1[key];
-    } else {
-      keyValue1 = [];
-    }
-    if (_.get(file2, key)) {
-      keyValue2 = file2[key];
-    } else {
-      keyValue2 = [];
-    }
+  const result = commonKeys.reduce((acc, key) => {
+    const keyValue1 = getKeyOfValue(file1, key);
+    const keyValue2 = getKeyOfValue(file2, key);
     acc[key] = getCommonKeys(keyValue1, keyValue2);
     return acc;
   }, {});
