@@ -20,7 +20,7 @@ const getKeyOfValue = (file, key) => {
 const getCommonKeys = (file1, file2) => {
   const fileKeys1 = getKeys(file1);
   const fileKeys2 = getKeys(file2);
-  const commonKeys = _.union(fileKeys1, fileKeys2).sort();
+  const commonKeys = _.union(fileKeys1, fileKeys2);
   if (commonKeys.length === 0) {
     return null;
   }
