@@ -27,8 +27,9 @@ const getCommonKeys = (file1, file2) => {
   const result = commonKeys.reduce((acc, key) => {
     const keyValue1 = getKeyOfValue(file1, key);
     const keyValue2 = getKeyOfValue(file2, key);
-    acc[key] = getCommonKeys(keyValue1, keyValue2);
-    return acc;
+    const newAcc = _.cloneDeep(acc)
+    newAcc[key] = getCommonKeys(keyValue1, keyValue2);
+    return newAcc;
   }, {});
   return result;
 };
