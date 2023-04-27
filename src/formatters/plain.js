@@ -15,6 +15,13 @@ const processValue = (value) => {
   return isCopmlex(value);
 };
 
+const callback = (acc, value, separator) => {
+  if (acc === '') {
+    return `${value}`;
+  }
+  return `${acc}${separator}${value}`;
+};
+
 const genString = (objectData, objectStatus, mainPath) => {
   const strings = {
     added: 'was added with value:',
@@ -22,12 +29,7 @@ const genString = (objectData, objectStatus, mainPath) => {
     different: 'was updated.',
   };
   const iter = (data, status, path) => {
-    const currentPath = path.reduce((acc, key) => {
-      if (acc === '') {
-        return `${key}`;
-      }
-      return `${acc}.${key}`;
-    }, '');
+    const currentPath = path.reduce((acc, key) => callback(acc, key, '.'), '');
     if (status === 'different') {
       return `Property '${currentPath}' ${strings[status]} From ${processValue(data[0])} to ${processValue(data[1])}`;
     }
@@ -59,12 +61,7 @@ const plain = (value) => {
   const iter = (object) => {
     const keyAndValue = Object.entries(object);
     const data = keyAndValue.flatMap((elem) => genString(elem[1].data, elem[1].status, [elem[0]]));
-    const result = data.flat(Infinity).reduce((acc, elem) => {
-      if (acc === '') {
-        return `${elem}`;
-      }
-      return `${acc}\n${elem}`;
-    }, '');
+    const result = data.flat(Infinity).reduce((acc, elem) => callback(acc, elem, '\n'), '');
     return `${result}`;
   };
   return iter(value);

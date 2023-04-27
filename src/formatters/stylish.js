@@ -18,6 +18,12 @@ const genString = (value, replacer, spacesCount, deep) => {
   return iter(value, replacer, spacesCount, deep);
 };
 
+const indentByStatus = {
+  added: '+ ',
+  removed: '- ',
+  equals: '  ',
+};
+
 const stylish = (value, replacer = ' ', spacesCount = 4) => {
   if (!(isObject(value))) {
     return `${value}`;
@@ -25,15 +31,6 @@ const stylish = (value, replacer = ' ', spacesCount = 4) => {
   const iter = (object, sub, indent, depth) => {
     const keyAndValue = Object.entries(object);
     const data = keyAndValue.map((elem) => {
-      if (elem[1].status === 'added') {
-        return `+ ${elem[0]}: ${genString(elem[1].data, sub, indent, depth)}`;
-      }
-      if (elem[1].status === 'removed') {
-        return `- ${elem[0]}: ${genString(elem[1].data, sub, indent, depth)}`;
-      }
-      if (elem[1].status === 'equals') {
-        return `  ${elem[0]}: ${genString(elem[1].data, sub, indent, depth)}`;
-      }
       if (elem[1].status === 'common') {
         return `  ${elem[0]}: ${iter(elem[1].data, sub, indent, depth + 1)}`;
       }
@@ -42,7 +39,8 @@ const stylish = (value, replacer = ' ', spacesCount = 4) => {
         const data2 = `+ ${elem[0]}: ${genString(elem[1].data[1], sub, indent, depth)}`;
         return `${data1}\n${sub.repeat(depth * indent - 2)}${data2}`;
       }
-      return null;
+      const string = `${elem[0]}: ${genString(elem[1].data, sub, indent, depth)}`;
+      return `${indentByStatus[elem[1].status]}${string}`;
     });
     const result = data.reduce((acc, elem) => `${acc}\n${sub.repeat(depth * indent - 2)}${elem}`, '{');
     return `${result}\n${sub.repeat(depth * indent - indent)}}`;
