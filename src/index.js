@@ -64,7 +64,7 @@ const getData = (file1, file2, key, status, func) => {
   return [file1[key], file2[key]];
 };
 
-const getDiff = (fileObject1, fileObject2) => {
+export const getDiff = (fileObject1, fileObject2) => {
   const file1 = _.cloneDeep(fileObject1);
   const file2 = _.cloneDeep(fileObject2);
   const commonObject = getCommonKeys(file1, file2);

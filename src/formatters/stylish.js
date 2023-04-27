@@ -24,12 +24,9 @@ const indentByStatus = {
   equals: '  ',
 };
 
-const stylish = (value, replacer = ' ', spacesCount = 4) => {
-  if (!(isObject(value))) {
-    return `${value}`;
-  }
-  const iter = (object, sub, indent, depth) => {
-    const keyAndValue = Object.entries(object);
+const stylish = (object, replacer = ' ', spacesCount = 4) => {
+  const iter = (value, sub, indent, depth) => {
+    const keyAndValue = Object.entries(value);
     const data = keyAndValue.map((elem) => {
       if (elem[1].status === 'common') {
         return `  ${elem[0]}: ${iter(elem[1].data, sub, indent, depth + 1)}`;
@@ -45,7 +42,7 @@ const stylish = (value, replacer = ' ', spacesCount = 4) => {
     const result = data.reduce((acc, elem) => `${acc}\n${sub.repeat(depth * indent - 2)}${elem}`, '{');
     return `${result}\n${sub.repeat(depth * indent - indent)}}`;
   };
-  return iter(value, replacer, spacesCount, 1);
+  return iter(object, replacer, spacesCount, 1);
 };
 
 export default stylish;

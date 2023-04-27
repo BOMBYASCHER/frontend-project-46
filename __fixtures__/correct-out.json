@@ -1,0 +1,25 @@
+{
+  "follow": {
+    "status": "removed",
+    "data": false
+  },
+  "host": {
+    "status": "equals",
+    "data": "hexlet.io"
+  },
+  "proxy": {
+    "status": "removed",
+    "data": "123.234.53.22"
+  },
+  "timeout": {
+    "status": "different",
+    "data": [
+      50,
+      20
+    ]
+  },
+  "verbose": {
+    "status": "added",
+    "data": true
+  }
+}

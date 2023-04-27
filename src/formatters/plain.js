@@ -54,17 +54,14 @@ const genString = (objectData, objectStatus, mainPath) => {
   return iter(objectData, objectStatus, mainPath);
 };
 
-const plain = (value) => {
-  if (!(isObject(value))) {
-    return `${value}`;
-  }
-  const iter = (object) => {
-    const keyAndValue = Object.entries(object);
+const plain = (object) => {
+    const iter = (value) => {
+    const keyAndValue = Object.entries(value);
     const data = keyAndValue.flatMap((elem) => genString(elem[1].data, elem[1].status, [elem[0]]));
     const result = data.flat(Infinity).reduce((acc, elem) => callback(acc, elem, '\n'), '');
     return `${result}`;
   };
-  return iter(value);
+  return iter(object);
 };
 
 export default plain;
